@@ -1,0 +1,54 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simple green character with glow effect -->
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g transform="translate(100, 100)">
+    <!-- Simple oval body -->
+    <ellipse cx="0" cy="5" rx="35" ry="45" fill="#4CAF50" stroke="#2E7D32" stroke-width="3" filter="url(#glow)"/>
+    
+    <!-- Simple round head -->
+    <circle cx="0" cy="-25" r="30" fill="#4CAF50" stroke="#2E7D32" stroke-width="3" filter="url(#glow)"/>
+    
+    <!-- Simple eyes -->
+    <circle cx="-10" cy="-35" r="8" fill="#ffffff"/>
+    <circle cx="10" cy="-35" r="8" fill="#ffffff"/>
+    
+    <!-- Black pupils -->
+    <circle cx="-10" cy="-35" r="4" fill="#000000"/>
+    <circle cx="10" cy="-35" r="4" fill="#000000"/>
+    
+    <!-- Simple eyebrows -->
+    <path d="M -18 -45 Q -10 -50 -2 -45" stroke="#000000" stroke-width="3" fill="none"/>
+    <path d="M 2 -45 Q 10 -50 18 -45" stroke="#000000" stroke-width="3" fill="none"/>
+    
+    <!-- Simple smile -->
+    <path d="M -8 -15 Q 0 -10 8 -15" stroke="#000000" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Simple limbs -->
+    <!-- Arms -->
+    <ellipse cx="-25" cy="-5" rx="8" ry="20" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    <ellipse cx="25" cy="-5" rx="8" ry="20" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    
+    <!-- Legs -->
+    <ellipse cx="-12" cy="35" rx="10" ry="20" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    <ellipse cx="12" cy="35" rx="10" ry="20" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    
+    <!-- Sparkles around the character -->
+    <circle cx="-40" cy="-40" r="2" fill="#00ff00" opacity="0.8"/>
+    <circle cx="40" cy="-40" r="2" fill="#00ff00" opacity="0.8"/>
+    <circle cx="-40" cy="40" r="2" fill="#00ff00" opacity="0.8"/>
+    <circle cx="40" cy="40" r="2" fill="#00ff00" opacity="0.8"/>
+    <circle cx="-30" cy="-50" r="1.5" fill="#00ff00" opacity="0.6"/>
+    <circle cx="30" cy="-50" r="1.5" fill="#00ff00" opacity="0.6"/>
+    <circle cx="-30" cy="50" r="1.5" fill="#00ff00" opacity="0.6"/>
+    <circle cx="30" cy="50" r="1.5" fill="#00ff00" opacity="0.6"/>
+  </g>
+</svg>

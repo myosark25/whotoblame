@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WhoToBlame PNG Generator</title>
+    <style>
+        body { background: #000; color: #00ff00; font-family: Arial; text-align: center; padding: 20px; }
+        canvas { border: 2px solid #00ff00; margin: 20px; }
+        button { background: #00ff00; color: #000; border: none; padding: 10px 20px; margin: 10px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🎨 WhoToBlame Logo PNG Generator</h1>
+    <p>Click buttons to download high-resolution PNG logos</p>
+    
+    <div>
+        <canvas id="facebookCanvas" width="400" height="400"></canvas>
+        <br>
+        <button onclick="downloadFacebook()">📱 Download Facebook Logo (1600x1600)</button>
+    </div>
+    
+    <div>
+        <canvas id="simpleCanvas" width="400" height="400"></canvas>
+        <br>
+        <button onclick="downloadSimple()">🎨 Download Simple Logo (1600x1600)</button>
+    </div>
+    
+    <div>
+        <button onclick="downloadAll()">🚀 Download All PNGs</button>
+    </div>
+
+    <script>
+        function drawLogo(canvas, withText = false) {
+            const ctx = canvas.getContext('2d');
+            const scale = 4;
+            canvas.width = 400 * scale;
+            canvas.height = 400 * scale;
+            
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.scale(scale, scale);
+            
+            // Background
+            const gradient = ctx.createRadialGradient(200, 200, 0, 200, 200, 180);
+            gradient.addColorStop(0, '#1a1a1a');
+            gradient.addColorStop(1, '#000000');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 400, 400);
+
+            // Border with glow
+            ctx.strokeStyle = '#00ff00';
+            ctx.lineWidth = 8;
+            ctx.shadowColor = '#00ff00';
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.arc(200, 200, 180, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Character
+            ctx.fillStyle = '#4CAF50';
+            ctx.strokeStyle = '#2E7D32';
+            ctx.lineWidth = 6;
+
+            // Body
+            const bodyGradient = ctx.createRadialGradient(200, 200, 0, 200, 220, 90);
+            bodyGradient.addColorStop(0, '#66BB6A');
+            bodyGradient.addColorStop(1, '#4CAF50');
+            ctx.fillStyle = bodyGradient;
+            ctx.beginPath();
+            ctx.ellipse(200, 220, 70, 90, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+
+            // Head
+            const headGradient = ctx.createRadialGradient(200, 180, 0, 200, 180, 55);
+            headGradient.addColorStop(0, '#66BB6A');
+            headGradient.addColorStop(1, '#4CAF50');
+            ctx.fillStyle = headGradient;
+            ctx.beginPath();
+            ctx.arc(200, 180, 55, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+
+            // Eyes
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(180, 170, 14, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(220, 170, 14, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Eye highlights
+            const highlightGradient = ctx.createRadialGradient(183, 167, 0, 183, 167, 6);
+            highlightGradient.addColorStop(0, '#ffffff');
+            highlightGradient.addColorStop(1, '#f0f0f0');
+            ctx.fillStyle = highlightGradient;
+            ctx.beginPath();
+            ctx.arc(183, 167, 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(223, 167, 6, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Smile
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.arc(200, 190, 25, 0, Math.PI);
+            ctx.stroke();
+
+            // Text (if requested)
+            if (withText) {
+                ctx.fillStyle = '#00ff00';
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 2;
+                ctx.font = 'bold 28px Arial';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = '#00ff00';
+                ctx.shadowBlur = 10;
+                ctx.fillText('WhoToBlame', 200, 340);
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function downloadFacebook() {
+            const canvas = document.getElementById('facebookCanvas');
+            drawLogo(canvas, true);
+            const link = document.createElement('a');
+            link.download = 'whotoblame-facebook-logo-hd.png';
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        function downloadSimple() {
+            const canvas = document.getElementById('simpleCanvas');
+            drawLogo(canvas, false);
+            const link = document.createElement('a');
+            link.download = 'whotoblame-simple-logo-hd.png';
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        function downloadAll() {
+            downloadFacebook();
+            setTimeout(() => downloadSimple(), 1000);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            drawLogo(document.getElementById('facebookCanvas'), true);
+            drawLogo(document.getElementById('simpleCanvas'), false);
+        };
+    </script>
+</body>
+</html>
