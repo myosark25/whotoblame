@@ -14,12 +14,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.0",
-    "chart.js": "^4.2.0",
-    "react-chartjs-2": "^5.2.0",
-    "bootstrap": "^5.2.0",
-    "react-bootstrap": "^2.7.0",
-    "font-awesome": "^4.7.0"
+    "react-router-dom": "^6.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

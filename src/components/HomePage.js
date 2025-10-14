@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
+  // State management
   const [isLoading, setIsLoading] = useState(true);
   const [blameCount, setBlameCount] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -9,7 +10,18 @@ const HomePage = () => {
   const [funnyMessage, setFunnyMessage] = useState('');
   const [showExportOptions, setShowExportOptions] = useState(false);
 
+  // Effects
   useEffect(() => {
+    // Performance monitoring
+    if (typeof window !== 'undefined' && 'performance' in window) {
+      const perfData = performance.getEntriesByType('navigation')[0];
+      console.log('Page Load Performance:', {
+        domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+        loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
+        totalTime: perfData.loadEventEnd - perfData.fetchStart
+      });
+    }
+
     // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -18,11 +30,12 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleBlame = () => {
+  // Event handlers - optimized with useCallback
+  const handleBlame = useCallback(() => {
     setBlameCount(prev => prev + 1);
-  };
+  }, []);
 
-  const handleCopyCA = async () => {
+  const handleCopyCA = useCallback(async () => {
     const contractAddress = "0x1234567890abcdef1234567890abcdef12345678"; // Replace with actual CA
     try {
       await navigator.clipboard.writeText(contractAddress);
@@ -31,9 +44,30 @@ const HomePage = () => {
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
-  };
+  }, []);
 
-  const handleLogoClick = () => {
+  // Memoized funny messages array
+  const funnyMessages = useMemo(() => [
+    "🎉 OW! That hurt!",
+    "😄 Stop poking me!",
+    "🤪 I'm getting dizzy!",
+    "🎭 You found my secret!",
+    "🚀 I'm flying away!",
+    "💚 Green with envy!",
+    "🎪 Circus time!",
+    "🎨 I'm changing colors!",
+    "🌟 I'm a star!",
+    "🎯 Bullseye!",
+    "🎪 Welcome to the blame circus!",
+    "🎭 The show must go on!",
+    "🎨 I'm a work of art!",
+    "🎪 Step right up!",
+    "🎯 You got me!",
+    "📱 Export me for Facebook!",
+    "🎨 Make me your profile pic!"
+  ], []);
+
+  const handleLogoClick = useCallback(() => {
     setLogoClickCount(prev => prev + 1);
     
     // Show export options after 3 clicks
@@ -42,33 +76,14 @@ const HomePage = () => {
       setTimeout(() => setShowExportOptions(false), 5000);
     }
     
-    const funnyMessages = [
-      "🎉 OW! That hurt!",
-      "😄 Stop poking me!",
-      "🤪 I'm getting dizzy!",
-      "🎭 You found my secret!",
-      "🚀 I'm flying away!",
-      "💚 Green with envy!",
-      "🎪 Circus time!",
-      "🎨 I'm changing colors!",
-      "🌟 I'm a star!",
-      "🎯 Bullseye!",
-      "🎪 Welcome to the blame circus!",
-      "🎭 The show must go on!",
-      "🎨 I'm a work of art!",
-      "🎪 Step right up!",
-      "🎯 You got me!",
-      "📱 Export me for Facebook!",
-      "🎨 Make me your profile pic!"
-    ];
-    
     const randomMessage = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
     setFunnyMessage(randomMessage);
     
     setTimeout(() => setFunnyMessage(''), 3000);
-  };
+  }, [logoClickCount, funnyMessages]);
 
-  const exportLogoForFacebook = () => {
+  // Export functions - optimized with useCallback
+  const exportLogoForFacebook = useCallback(() => {
     // Create a high-resolution canvas for Facebook profile picture
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -212,9 +227,9 @@ const HomePage = () => {
     link.download = 'whotoblame-facebook-profile-picture-clean-2400x2400.png';
     link.href = canvas.toDataURL('image/png', 1.0);
     link.click();
-  };
+  }, []);
 
-  const exportSimpleLogo = () => {
+  const exportSimpleLogo = useCallback(() => {
     // Create a high-resolution canvas for the simple version
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -344,8 +359,9 @@ const HomePage = () => {
     link.download = 'whotoblame-simple-logo-hd.png';
     link.href = canvas.toDataURL('image/png', 1.0);
     link.click();
-  };
+  }, []);
 
+  // Loading screen
   if (isLoading) {
     return (
       <div className="loading-screen">
@@ -357,6 +373,7 @@ const HomePage = () => {
     );
   }
 
+  // Main render
   return (
     <div className="arcade-homepage">
       {/* Starry Background */}
@@ -373,133 +390,107 @@ const HomePage = () => {
         <div className="alien alien-7"></div>
       </div>
 
-      {/* Main Content */}
-      <div className="arcade-content">
+      {/* Big Container Card */}
+      <div className="big-container-card">
+        <div className="arcade-content">
 
-        {/* Logo */}
-        <div className="logo-container">
-          <img 
-            src="/blame-logo.svg" 
-            alt="WhoToBlame Logo" 
-            className="blame-logo" 
-            onClick={handleLogoClick}
-            title="Click me for a surprise! 😄"
-          />
-          {funnyMessage && (
-            <div className="funny-message">
-              {funnyMessage}
-            </div>
-          )}
-          {logoClickCount > 0 && (
-            <div className="click-counter">
-              Clicks: {logoClickCount} 🎯
-            </div>
-          )}
-          {showExportOptions && (
-            <div className="export-options">
-              <h3>📱 Export for Facebook Profile</h3>
-              <div className="export-buttons">
+          {/* Logo */}
+          <div className="logo-container">
+            <img 
+              src="/blame-logo.svg" 
+              alt="WhoToBlame Logo" 
+              className="blame-logo" 
+              onClick={handleLogoClick}
+              title="Click me for a surprise! 😄"
+              loading="eager"
+              decoding="async"
+            />
+            {funnyMessage && (
+              <div className="funny-message">
+                {funnyMessage}
+              </div>
+            )}
+            {logoClickCount > 0 && (
+              <div className="click-counter">
+                Clicks: {logoClickCount} 🎯
+              </div>
+            )}
+            {showExportOptions && (
+              <div className="export-options">
+                <h3>📱 Export for Facebook Profile</h3>
+                <div className="export-buttons">
+                  <button 
+                    className="export-btn facebook-btn" 
+                    onClick={exportLogoForFacebook}
+                    title="Download with text"
+                  >
+                    📱 With Text
+                  </button>
+                  <button 
+                    className="export-btn simple-btn" 
+                    onClick={exportSimpleLogo}
+                    title="Download simple version"
+                  >
+                    🎨 Simple
+                  </button>
+                </div>
+                <p className="export-note">Perfect for Facebook profile pictures!</p>
+              </div>
+            )}
+          </div>
+          
+          {/* Title */}
+          <h1 className="arcade-title" onClick={handleBlame}>
+            WHOTOBLAME
+          </h1>
+          
+          {/* Tagline */}
+          <p className="arcade-tagline">
+            WHO'S TO BLAME? EVERYONE! 😂
+          </p>
+
+          {/* Contract Address */}
+          <div className="contract-simple">
+            <div className="contract-label-simple">Contract Address</div>
+            <div className="address-wrapper">
+              <div className="address-box">
+                <span className="address-text-simple">0x1234...5678</span>
                 <button 
-                  className="export-btn facebook-btn" 
-                  onClick={exportLogoForFacebook}
-                  title="Download with text"
+                  className="copy-simple" 
+                  onClick={handleCopyCA}
+                  title="Copy address"
                 >
-                  📱 With Text
-                </button>
-                <button 
-                  className="export-btn simple-btn" 
-                  onClick={exportSimpleLogo}
-                  title="Download simple version"
-                >
-                  🎨 Simple
+                  {copied ? "✓" : "📋"}
                 </button>
               </div>
-              <p className="export-note">Perfect for Facebook profile pictures!</p>
-            </div>
-          )}
-        </div>
-        
-        {/* Title */}
-        <h1 className="arcade-title" onClick={handleBlame}>
-          WHOTOBLAME
-        </h1>
-        
-        {/* Tagline */}
-        <p className="arcade-tagline">
-          WHO'S TO BLAME? EVERYONE! 😂
-        </p>
-
-        {/* Token Info Card */}
-        <div className="token-info-card">
-          <div className="token-header">
-            <div className="token-title">
-              <h3>WHOTOBLAME</h3>
-              <span className="token-symbol">WTB</span>
-            </div>
-            <div className="live-indicator">
-              <span className="live-dot"></span>
-              <span>LIVE</span>
             </div>
           </div>
 
-          <div className="price-section">
-            <div className="current-price">
-              <span className="price-symbol">$</span>
-              <span className="price-value">{(Math.random() * 0.1 + 0.01).toFixed(6)}</span>
-              <span className="price-change positive">+{(Math.random() * 20 + 5).toFixed(2)}%</span>
-            </div>
-            <div className="price-details">
-              <div className="detail-item">
-                <span className="detail-label">Market Cap</span>
-                <span className="detail-value">${(Math.random() * 1000000 + 500000).toLocaleString()}</span>
-              </div>
-              <div className="detail-item">
-                <span className="detail-label">24h Volume</span>
-                <span className="detail-value">${(Math.random() * 100000 + 50000).toLocaleString()}</span>
-              </div>
-            </div>
+          {/* Start Button */}
+          <div className="start-button-container">
+            <Link to="/blame" className="start-button">
+              PRESS TO BLAME SYSTEM
+            </Link>
           </div>
 
-          <div className="contract-section">
-            <div className="contract-label">Contract Address</div>
-            <div className="contract-address">
-              <span className="address-text">0x1234...5678</span>
-              <button 
-                className="copy-button" 
-                onClick={handleCopyCA}
-                title="Click to copy full contract address"
-              >
-                {copied ? "✅" : "📋"}
-              </button>
-            </div>
+          {/* Instructions */}
+          <p className="instructions">
+            CLICK TO BLAME EVERYONE! 🎯
+          </p>
+
+          {/* Status Indicators */}
+          <div className="status-indicators">
+            <div className="status-dot status-green">😈</div>
+            <div className="status-dot status-red">🤡</div>
           </div>
+
+          {/* Funny Messages */}
+          <div className="funny-messages">
+            <p className="funny-text">BLAME THE DEVS! BLAME THE WHALES! BLAME YOUR EX! 💸</p>
+            <p className="funny-subtext">IT'S ALWAYS SOMEONE ELSE'S FAULT! 🎭</p>
+          </div>
+
         </div>
-
-        {/* Start Button */}
-        <div className="start-button-container">
-          <Link to="/blame" className="start-button">
-            PRESS TO BLAME SYSTEM
-          </Link>
-        </div>
-
-        {/* Instructions */}
-        <p className="instructions">
-          CLICK TO BLAME EVERYONE! 🎯
-        </p>
-
-        {/* Status Indicators */}
-        <div className="status-indicators">
-          <div className="status-dot status-green">😈</div>
-          <div className="status-dot status-red">🤡</div>
-        </div>
-
-        {/* Funny Messages */}
-        <div className="funny-messages">
-          <p className="funny-text">BLAME THE DEVS! BLAME THE WHALES! BLAME YOUR EX! 💸</p>
-          <p className="funny-subtext">IT'S ALWAYS SOMEONE ELSE'S FAULT! 🎭</p>
-        </div>
-
-
       </div>
     </div>
   );
