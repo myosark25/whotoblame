@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "webpack serve --mode development",
