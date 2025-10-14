@@ -397,7 +397,7 @@ const HomePage = () => {
           {/* Logo */}
           <div className="logo-container">
             <img 
-              src="/blame-logo.svg" 
+              src="./blame-logo.svg" 
               alt="WhoToBlame Logo" 
               className="blame-logo" 
               onClick={handleLogoClick}

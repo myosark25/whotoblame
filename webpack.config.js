@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -35,6 +36,14 @@ module.exports = {
       template: './public/index.html',
       filename: 'index.html',
       inject: true
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'public/blame-logo.svg',
+          to: 'blame-logo.svg'
+        }
+      ]
     })
   ],
   devServer: {
