@@ -36,7 +36,7 @@ const HomePage = () => {
   }, []);
 
   const handleCopyCA = useCallback(async () => {
-    const contractAddress = "0x1234567890abcdef1234567890abcdef12345678"; // Replace with actual CA
+    const contractAddress = "8Q81vQgTfSAi8aiQvxytnxFjeLqKecDpxm3XWVrMsBTZ"; // WTB Contract Address
     try {
       await navigator.clipboard.writeText(contractAddress);
       setCopied(true);
@@ -454,7 +454,7 @@ const HomePage = () => {
             <div className="contract-label-simple">Contract Address</div>
             <div className="address-wrapper">
               <div className="address-box">
-                <span className="address-text-simple">0x1234...5678</span>
+                <span className="address-text-simple">8Q81v...MsBTZ</span>
                 <button 
                   className="copy-simple" 
                   onClick={handleCopyCA}
